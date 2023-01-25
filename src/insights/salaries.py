@@ -10,7 +10,6 @@ def get_max_salary(path: str) -> int:
                         and int(item["max_salary"]) > max_salary:
             print(int((item["max_salary"])))
             max_salary = int(item["max_salary"])
-    print(max_salary)
     return int(max_salary)
     """Get the maximum salary of all jobs
 
@@ -30,6 +29,17 @@ def get_max_salary(path: str) -> int:
 
 
 def get_min_salary(path: str) -> int:
+    file = read(path)
+    min_salary = int(100000)
+    print(min_salary)
+    for item in file:
+        if item["min_salary"] and item["min_salary"] != 0 and\
+                        item["min_salary"] != 'invalid'\
+                        and int(item["min_salary"]) < min_salary:
+            print(int((item["min_salary"])))
+            min_salary = int(item["min_salary"])
+    print(min_salary)
+    return int(min_salary)
     """Get the minimum salary of all jobs
 
     Must call `read`
