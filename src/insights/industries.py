@@ -6,7 +6,9 @@ def get_unique_industries(path: str) -> List[str]:
     file = read(path)
     industries = set()
     for item in file:
-        industries.add(item["industries"])
+        if item["industry"]:
+            industries.add(item["industry"])
+    print(industries)
     return industries
     """Checks all different industries and returns a list of them
 
