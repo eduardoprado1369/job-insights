@@ -4,11 +4,14 @@ from src.insights.jobs import read
 
 def get_max_salary(path: str) -> int:
     file = read(path)
-    curr_max_salary = 0
+    max_salary = int(0)
     for item in file:
-        if item["max_salary"] and int(item["max_salary"]) > curr_max_salary:
-            curr_max_salary = int(item["max_salary"])
-    return curr_max_salary
+        if item["max_salary"] and item["max_salary"] != 'invalid'\
+                        and int(item["max_salary"]) > max_salary:
+            print(int((item["max_salary"])))
+            max_salary = int(item["max_salary"])
+    print(max_salary)
+    return int(max_salary)
     """Get the maximum salary of all jobs
 
     Must call `read`
