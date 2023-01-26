@@ -8,7 +8,7 @@ def get_max_salary(path: str) -> int:
     for item in file:
         if item["max_salary"] and item["max_salary"] != 'invalid'\
                         and int(item["max_salary"]) > max_salary:
-            print(int((item["max_salary"])))
+            # print(int((item["max_salary"])))
             max_salary = int(item["max_salary"])
     return int(max_salary)
     """Get the maximum salary of all jobs
@@ -31,14 +31,14 @@ def get_max_salary(path: str) -> int:
 def get_min_salary(path: str) -> int:
     file = read(path)
     min_salary = int(100000)
-    print(min_salary)
+    # print(min_salary)
     for item in file:
         if item["min_salary"] and item["min_salary"] != 0 and\
                         item["min_salary"] != 'invalid'\
                         and int(item["min_salary"]) < min_salary:
-            print(int((item["min_salary"])))
+            # print(int((item["min_salary"])))
             min_salary = int(item["min_salary"])
-    print(min_salary)
+    # print(min_salary)
     return int(min_salary)
     """Get the minimum salary of all jobs
 
@@ -58,14 +58,14 @@ def get_min_salary(path: str) -> int:
 
 
 def matches_salary_range(job: Dict, salary: Union[int, str]) -> bool:
-    if not salary or type(job["min_salary"]) != int or type(job["max_salary"])\
-             != int or type(salary) != int\
-            or job["min_salary"] > job["max_salary"]:
+    if type(job.get("min_salary")) not in [str, int] or\
+         type(job.get("max_salary")) not in [str, int]:
+        raise ValueError
+    if int(job["min_salary"]) > int(job["max_salary"]) or\
+            type(salary) not in [str, int]:
         raise ValueError
     # if salary in range(job["min_salary"], job["max_salary"]):
-    if salary >= job["min_salary"] and salary <= job["max_salary"]:
-        return True
-    return False
+    return int(job["min_salary"]) <= int(salary) <= int(job["max_salary"])
     """Checks if a given salary is in the salary range of a given job
 
     Parameters
@@ -95,6 +95,14 @@ def filter_by_salary_range(
     jobs: List[dict],
     salary: Union[str, int]
 ) -> List[Dict]:
+    jobs_in_salary_range = list()
+    for job in jobs:
+        try:
+            if matches_salary_range(job, salary):
+                jobs_in_salary_range.append(job)
+        except ValueError:
+            continue
+    return jobs_in_salary_range
     """Filters a list of jobs by salary range
 
     Parameters
